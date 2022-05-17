@@ -1,0 +1,38 @@
+buildscript {
+    ext {
+        build_gradle_version = '7.0.2'
+    }
+
+    project.ext {
+        compileSdk = 31
+        appId = "com.ask2784.fieldmanagement"
+        minSdk = 21
+        targetSdk = 31
+        versionCode = 100
+        versionName = "1.0.0"
+    }
+
+    repositories {
+        google()
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:$build_gradle_version"
+        classpath 'com.google.gms:google-services:4.3.10'
+    }
+
+}
+allprojects {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        google()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+
