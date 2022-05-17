@@ -14,7 +14,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-
+import com.ask2784.fieldmanagement.databases.Fields;
+import com.ask2784.fieldmanagement.databases.FieldsAdapter;
 import com.ask2784.fieldmanagement.databinding.ActivityMainBinding;
 import com.ask2784.fieldmanagement.databinding.AddFieldsBinding;
 import com.firebase.ui.auth.AuthUI;
@@ -26,8 +27,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.ask2784.fieldmanagement.databases.Fields;
-import com.ask2784.fieldmanagement.databases.FieldsAdapter;
 
 import java.util.ArrayList;
 
@@ -47,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        setSupportActionBar(binding.include.toolbar);
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser() != null) {
             uId = mAuth.getCurrentUser().getUid();

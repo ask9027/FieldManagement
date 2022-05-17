@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.ask2784.fieldmanagement.databinding.ActivityFieldDetailsBinding;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -16,11 +17,18 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class FieldDetailsActivity extends AppCompatActivity {
     private CollectionReference collectionReference;
     private String fieldId;
+    private ActivityFieldDetailsBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_field_details);
+        binding = ActivityFieldDetailsBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        setSupportActionBar(binding.include1.toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Field Details");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         mainMethod();
     }
 
@@ -60,20 +68,21 @@ public class FieldDetailsActivity extends AppCompatActivity {
                 .setMessage("Do You want to delete this Field?")
                 .setPositiveButton("Yes", (dialogInterface, i) -> collectionReference.document(fieldId)
                         .delete().addOnCompleteListener(task -> {
-                    if (task.isCanceled()) {
-                        Toast.makeText(this, "Canceled " + task.getResult(), Toast.LENGTH_SHORT).show();
-                        return;
-                    }
+                            if (task.isCanceled()) {
+                                Toast.makeText(this, "Canceled " + task.getResult(), Toast.LENGTH_SHORT).show();
+                                return;
+                            }
 
-                    if (task.isComplete()) {
-                        Toast.makeText(this, "Deleted ", Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
-                    dialogInterface.dismiss();
-                }))
+                            if (task.isComplete()) {
+                                Toast.makeText(this, "Deleted ", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                            dialogInterface.dismiss();
+                        }))
                 .setNegativeButton("No", null);
 
         AlertDialog dialog = alertDialogBuilder.create();
         dialog.show();
     }
+
 }
