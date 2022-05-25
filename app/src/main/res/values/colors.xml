@@ -5,4 +5,5 @@
     <color name="colorAccent">#03DAC5</color>
     <color name="colorControlHighlight">#008DCD</color>
     <color name="colorControlNormal">#57BEEE</color>
+    <color name="statusBarColor">#FFFFFBFE</color>
 </resources>

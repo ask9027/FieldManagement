@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:hint="@string/add_field">
+            android:hint="@string/field_name">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/addFiledName"
@@ -51,7 +51,6 @@
 
             <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/fieldSpinner"
-                style="@style/Theme.Material3.DayNight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>

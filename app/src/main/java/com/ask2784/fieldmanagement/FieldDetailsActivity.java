@@ -11,13 +11,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.ask2784.fieldmanagement.databinding.ActivityFieldDetailsBinding;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class FieldDetailsActivity extends AppCompatActivity {
     private CollectionReference collectionReference;
     private String fieldId;
-    private ActivityFieldDetailsBinding binding;
+    private  ActivityFieldDetailsBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +26,7 @@ public class FieldDetailsActivity extends AppCompatActivity {
         binding = ActivityFieldDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.include1.toolbar);
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle("Field Details");
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -36,6 +38,11 @@ public class FieldDetailsActivity extends AppCompatActivity {
         fieldId = getIntent().getStringExtra("fieldId");
         FirebaseFirestore fireStore = FirebaseFirestore.getInstance();
         collectionReference = fireStore.collection("Fields");
+        addDetails();
+    }
+
+    private void addDetails() {
+        binding.addFabDetails.setOnClickListener(v -> Snackbar.make(binding.getRoot(),"Add Details", Snackbar.LENGTH_SHORT).show());
     }
 
     @Override
@@ -54,12 +61,13 @@ public class FieldDetailsActivity extends AppCompatActivity {
             deleteField();
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
     private void editField() {
         Toast.makeText(this, "Edited", Toast.LENGTH_SHORT).show();
-
+        Snackbar.make(binding.getRoot(),"Edits",Snackbar.LENGTH_SHORT).show();
     }
 
     private void deleteField() {
@@ -85,4 +93,9 @@ public class FieldDetailsActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
 }

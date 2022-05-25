@@ -3,7 +3,6 @@
     <string name="field_name">Field Name</string>
     <string name="field_area">Field Area</string>
     <string name="current_crop">Current Crop</string>
-    <string name="current_session">Current Session</string>
     <string name="add_field">Add Field</string>
     <string name="login">Login</string>
     <string name="exit">Exit</string>

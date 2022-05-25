@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.ask2784.fieldmanagement">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -13,7 +14,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".FieldDetailsActivity"
-            android:exported="false" />
+            android:exported="true"/>
         <activity
             android:name=".LoginActivity"
             android:exported="true"

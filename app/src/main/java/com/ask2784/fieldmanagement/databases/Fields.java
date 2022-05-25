@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 
 import java.io.Serializable;
 
-public class Fields implements Serializable {
+public class Fields {
 
     private String uId, name, area, currentCrop;
 
