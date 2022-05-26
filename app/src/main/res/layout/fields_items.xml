@@ -50,7 +50,6 @@
                 android:text="@string/current_crop"
                 android:textColor="#1560FF"
                 android:textStyle="bold"
-                android:layout_marginEnd="10dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv2" />
 
@@ -58,7 +57,7 @@
                 android:id="@+id/fieldsName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="40dp"
                 android:text="@{fields.name}"
                 app:layout_constraintStart_toEndOf="@id/tv1"
                 app:layout_constraintTop_toTopOf="parent" />
