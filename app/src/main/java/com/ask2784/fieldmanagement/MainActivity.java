@@ -3,11 +3,14 @@ package com.ask2784.fieldmanagement;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -62,8 +65,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         fieldsIdList = new ArrayList<>();
         initRecyclerView();
         collectionReference = fireStore.collection("Fields");
-        collectionReference.whereEqualTo("uid", uId)
-                .orderBy("name");
+
         addFirestoreData();
 
     }
@@ -80,7 +82,18 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         eventListener = (value, error) -> {
 
             if (error != null) {
-                Toast.makeText(MainActivity.this, "" + error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
+                SpannableString spannableString = new SpannableString(error.getLocalizedMessage());
+                Linkify.addLinks(spannableString, Linkify.ALL);
+                TextView errorView = new TextView(this);
+                errorView.setPadding(40, 0, 40, 0);
+                errorView.setMovementMethod(LinkMovementMethod.getInstance());
+                errorView.setText(spannableString);
+                builder.setTitle("Getting Error on Data")
+                        .setView(errorView)
+                        .setPositiveButton("Okay", null);
+                AlertDialog dialog = builder.create();
+                dialog.show();
                 return;
             }
 
@@ -103,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         };
 
         if (listenerRegistration == null) {
-            listenerRegistration = collectionReference.addSnapshotListener(eventListener);
+            setCollectionReference();
         }
 
     }
@@ -158,6 +171,10 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         });
     }
 
+    private void setCollectionReference() {
+        listenerRegistration = collectionReference.whereEqualTo("uid", uId).orderBy("name").addSnapshotListener(eventListener);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -194,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
     protected void onStart() {
         super.onStart();
         FirebaseAuth.getInstance().addAuthStateListener(this);
-        listenerRegistration = collectionReference.addSnapshotListener(eventListener);
+        setCollectionReference();
     }
 
     @Override
