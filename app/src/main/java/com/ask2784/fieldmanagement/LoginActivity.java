@@ -40,7 +40,6 @@ public class LoginActivity extends AppCompatActivity {
                     .setAlwaysShowSignInMethodScreen(true)
                     .setAvailableProviders(provider)
                     .build();
-
             launcher.launch(intent);
         });
     }
