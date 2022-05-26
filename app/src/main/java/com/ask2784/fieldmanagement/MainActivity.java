@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.ask2784.fieldmanagement.databases.Fields;
 import com.ask2784.fieldmanagement.databases.FieldsAdapter;
+import com.ask2784.fieldmanagement.databases.OnClickListener;
 import com.ask2784.fieldmanagement.databinding.ActivityMainBinding;
 import com.ask2784.fieldmanagement.databinding.AddFieldsBinding;
 import com.firebase.ui.auth.AuthUI;
@@ -34,7 +35,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener, FieldsAdapter.OnClickListener {
+public class MainActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener, OnClickListener {
     private ArrayList<Fields> fieldsList;
     private ArrayList<String> fieldsIdList;
     private long pressedTime;
@@ -65,9 +66,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         fieldsIdList = new ArrayList<>();
         initRecyclerView();
         collectionReference = fireStore.collection("Fields");
-
-        addFirestoreData();
-
+        getFirestoreData();
     }
 
     private void initRecyclerView() {
@@ -77,10 +76,8 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private void addFirestoreData() {
-
+    private void getFirestoreData() {
         eventListener = (value, error) -> {
-
             if (error != null) {
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
                 SpannableString spannableString = new SpannableString(error.getLocalizedMessage());
@@ -126,14 +123,12 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
             AddFieldsBinding addFieldsBinding;
             addFieldsBinding = AddFieldsBinding.inflate(getLayoutInflater());
             MaterialAlertDialogBuilder alertDialogBuilder = new MaterialAlertDialogBuilder(this);
-
             alertDialogBuilder
                     .setTitle("Add New Field")
                     .setView(addFieldsBinding.getRoot())
                     .setPositiveButton("Save", null)
                     .setNegativeButton("Cancel", null);
             AlertDialog alertDialog = alertDialogBuilder.create();
-
             alertDialog.setOnShowListener(dialogInterface -> {
                 String[] fieldType = {"Bigha", "Hectare", "Acer"};
                 ArrayAdapter<String> typeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, fieldType);
@@ -177,21 +172,18 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
         if (item.getItemId() == R.id.logout) {
             AuthUI.getInstance().signOut(this);
             return true;
         } else if (item.getItemId() == R.id.exit) {
             System.exit(0);
             return true;
-
         }
         return super.onOptionsItemSelected(item);
     }
@@ -236,6 +228,5 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         Intent intent = new Intent(MainActivity.this, FieldDetailsActivity.class);
         intent.putExtra("fieldId", fieldsIdList.get(position));
         startActivity(intent);
-
     }
 }
