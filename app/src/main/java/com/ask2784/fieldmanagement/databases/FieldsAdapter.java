@@ -40,9 +40,6 @@ public class FieldsAdapter extends RecyclerView.Adapter<FieldsAdapter.FieldsView
         return fields.size();
     }
 
-    public interface OnClickListener {
-        void onViewClick(int position);
-    }
 
     public class FieldsViewHolder extends RecyclerView.ViewHolder {
         FieldsItemsBinding binding;
