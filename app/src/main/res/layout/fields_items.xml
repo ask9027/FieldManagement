@@ -5,7 +5,7 @@
 
         <variable
             name="fields"
-            type="com.ask2784.fieldmanagement.databases.Fields" />
+            type="com.ask2784.fieldmanagement.databases.models.Fields" />
     </data>
 
     <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"

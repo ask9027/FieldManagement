@@ -18,9 +18,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.ask2784.fieldmanagement.databases.Fields;
-import com.ask2784.fieldmanagement.databases.FieldsAdapter;
 import com.ask2784.fieldmanagement.databases.OnClickListener;
+import com.ask2784.fieldmanagement.databases.adapters.FieldsAdapter;
+import com.ask2784.fieldmanagement.databases.models.Fields;
 import com.ask2784.fieldmanagement.databinding.ActivityMainBinding;
 import com.ask2784.fieldmanagement.databinding.AddFieldsBinding;
 import com.firebase.ui.auth.AuthUI;
@@ -115,7 +115,6 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         if (listenerRegistration == null) {
             setCollectionReference();
         }
-
     }
 
     private void addField() {

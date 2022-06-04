@@ -1,4 +1,4 @@
-package com.ask2784.fieldmanagement.databases;
+package com.ask2784.fieldmanagement.databases.models;
 
 import androidx.annotation.NonNull;
 

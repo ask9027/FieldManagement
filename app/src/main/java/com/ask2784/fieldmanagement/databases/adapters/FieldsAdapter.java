@@ -1,4 +1,4 @@
-package com.ask2784.fieldmanagement.databases;
+package com.ask2784.fieldmanagement.databases.adapters;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ask2784.fieldmanagement.databases.OnClickListener;
+import com.ask2784.fieldmanagement.databases.models.Fields;
 import com.ask2784.fieldmanagement.databinding.FieldsItemsBinding;
 
 import java.util.ArrayList;
