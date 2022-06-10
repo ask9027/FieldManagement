@@ -57,21 +57,5 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tInputLayout2"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:hint="@string/current_crop">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/addFieldCurrentCrop"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:singleLine="true" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
     </LinearLayout>
 </ScrollView>

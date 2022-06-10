@@ -6,75 +6,41 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ask2784.fieldmanagement.databases.OnClickListener;
+import com.ask2784.fieldmanagement.databases.listeners.OnClickListener;
+import com.ask2784.fieldmanagement.databases.listeners.OnLongClickListener;
 import com.ask2784.fieldmanagement.databases.models.FieldDetails;
-import com.ask2784.fieldmanagement.databases.models.Fields;
 import com.ask2784.fieldmanagement.databinding.FieldDetailsBinding;
-import com.ask2784.fieldmanagement.databinding.FieldsItemsBinding;
 
 import java.util.ArrayList;
 
-public class FieldDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private final ArrayList<Fields> fieldsArrayList;
+public class FieldDetailsAdapter
+        extends RecyclerView.Adapter<FieldDetailsAdapter.FieldDetailsViewHolder> {
     private final OnClickListener onClickListener;
+    private final OnLongClickListener onLongClickListener;
     private final ArrayList<FieldDetails> fieldDetailsList;
-    private static final int VIEW_ONE = 0;
-    private static final int VIEW_TWO = 1;
 
-    public FieldDetailsAdapter(ArrayList<Fields> fieldsArrayList, OnClickListener onClickListener, ArrayList<FieldDetails> fieldDetailsList) {
-        this.fieldsArrayList = fieldsArrayList;
+    public FieldDetailsAdapter(OnClickListener onClickListener, OnLongClickListener onLongClickListener, ArrayList<FieldDetails> fieldDetailsList) {
         this.onClickListener = onClickListener;
+        this.onLongClickListener = onLongClickListener;
         this.fieldDetailsList = fieldDetailsList;
     }
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == VIEW_ONE) {
-            return new FieldViewHolder(FieldsItemsBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
-        } else if (viewType == VIEW_TWO) {
-            return new FieldDetailsViewHolder(FieldDetailsBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
-        } else {
-            return null;
-        }
+    public FieldDetailsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new FieldDetailsViewHolder(FieldDetailsBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        final int itemType = getItemViewType(position);
-        if (itemType == VIEW_ONE) {
-            FieldViewHolder fieldViewHolder = (FieldViewHolder) holder;
-            Fields field = fieldsArrayList.get(0);
-            fieldViewHolder.binding.setFields(field);
-            fieldViewHolder.binding.executePendingBindings();
-        } else if (itemType == VIEW_TWO) {
-            FieldDetailsViewHolder fieldDetailsViewHolder = (FieldDetailsViewHolder) holder;
-            FieldDetails fieldDetail = fieldDetailsList.get(position-1);
-            fieldDetailsViewHolder.fieldDetailsBinding.setFieldDetails(fieldDetail);
-            fieldDetailsViewHolder.fieldDetailsBinding.executePendingBindings();
-        }
+    public void onBindViewHolder(@NonNull FieldDetailsViewHolder holder, int position) {
+        FieldDetails fieldDetails = fieldDetailsList.get(position);
+        holder.fieldDetailsBinding.setFieldDetails(fieldDetails);
+        holder.fieldDetailsBinding.executePendingBindings();
     }
 
     @Override
     public int getItemCount() {
-        return fieldsArrayList.size() + fieldDetailsList.size();
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if (position == VIEW_ONE)
-            return VIEW_ONE;
-        else return VIEW_TWO;
-    }
-
-    public class FieldViewHolder extends RecyclerView.ViewHolder {
-        FieldsItemsBinding binding;
-
-        public FieldViewHolder(@NonNull FieldsItemsBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
-            binding.getRoot().setOnClickListener(view -> onClickListener.onViewClick(getAdapterPosition()));
-        }
+        return fieldDetailsList.size();
     }
 
     public class FieldDetailsViewHolder extends RecyclerView.ViewHolder {
@@ -84,6 +50,7 @@ public class FieldDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             super(fieldDetailsBinding.getRoot());
             this.fieldDetailsBinding = fieldDetailsBinding;
             fieldDetailsBinding.getRoot().setOnClickListener(view -> onClickListener.onViewClick(getAdapterPosition()));
+            fieldDetailsBinding.getRoot().setOnLongClickListener(v -> onLongClickListener.onViewLongClick(getAdapterPosition()));
         }
     }
 }

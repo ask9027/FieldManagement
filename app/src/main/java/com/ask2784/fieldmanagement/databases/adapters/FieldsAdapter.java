@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ask2784.fieldmanagement.databases.OnClickListener;
+import com.ask2784.fieldmanagement.databases.listeners.OnClickListener;
 import com.ask2784.fieldmanagement.databases.models.Fields;
 import com.ask2784.fieldmanagement.databinding.FieldsItemsBinding;
 

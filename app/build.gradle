@@ -66,4 +66,7 @@ dependencies {
 
     //firebase Auth UI
     implementation 'com.firebaseui:firebase-ui-auth:8.0.1'
+
+
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
 }

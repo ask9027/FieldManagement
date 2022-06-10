@@ -4,18 +4,18 @@ import androidx.annotation.NonNull;
 
 import java.io.Serializable;
 
-public class Fields {
+public class Fields implements Serializable {
 
-    private String uId, name, area, currentCrop;
+    private String uId, name, area;
 
     public Fields() {
     }
 
-    public Fields(String uId, String name, String area, String currentCrop) {
+    public Fields(String uId, String name,
+                  String area) {
         this.uId = uId;
         this.name = name;
         this.area = area;
-        this.currentCrop = currentCrop;
     }
 
     public String getUId() {
@@ -42,18 +42,11 @@ public class Fields {
         this.area = area;
     }
 
-    public String getCurrentCrop() {
-        return currentCrop;
-    }
-
-    public void setCurrentCrop(String currentCrop) {
-        this.currentCrop = currentCrop;
-    }
-
     @NonNull
     @Override
     public String toString() {
-        return "Fields [area=" + area + ", currentCrop=" + currentCrop + ", name=" + name + ", uId=" + uId + "]";
+        return "Fields [area=" + area
+                + ", name=" + name + ", uId=" + uId + "]";
     }
 
 }

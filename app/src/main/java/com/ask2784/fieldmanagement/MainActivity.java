@@ -3,6 +3,7 @@ package com.ask2784.fieldmanagement;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
@@ -18,8 +19,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.ask2784.fieldmanagement.databases.OnClickListener;
 import com.ask2784.fieldmanagement.databases.adapters.FieldsAdapter;
+import com.ask2784.fieldmanagement.databases.listeners.OnClickListener;
 import com.ask2784.fieldmanagement.databases.models.Fields;
 import com.ask2784.fieldmanagement.databinding.ActivityMainBinding;
 import com.ask2784.fieldmanagement.databinding.AddFieldsBinding;
@@ -33,9 +34,11 @@ import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener, OnClickListener {
+public class MainActivity extends AppCompatActivity
+        implements FirebaseAuth.AuthStateListener, OnClickListener {
     private ArrayList<Fields> fieldsList;
     private ArrayList<String> fieldsIdList;
     private long pressedTime;
@@ -117,6 +120,13 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         }
     }
 
+    private void setCollectionReference() {
+        listenerRegistration = collectionReference
+                .whereEqualTo("uid", uId)
+                .orderBy("name")
+                .addSnapshotListener(eventListener);
+    }
+
     private void addField() {
         binding.addFab.setOnClickListener(v -> {
             AddFieldsBinding addFieldsBinding;
@@ -141,14 +151,10 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
                             } else if (addFieldsBinding.addFieldArea.getText() != null && addFieldsBinding.addFieldArea.getText().toString().isEmpty()) {
                                 addFieldsBinding.addFieldArea.setError("Enter Field Area");
                                 addFieldsBinding.addFieldArea.requestFocus();
-                            } else if (addFieldsBinding.addFieldCurrentCrop.getText() != null && addFieldsBinding.addFieldCurrentCrop.getText().toString().isEmpty()) {
-                                addFieldsBinding.addFieldCurrentCrop.setError("Enter Current Crop");
-                                addFieldsBinding.addFieldCurrentCrop.requestFocus();
                             } else {
                                 Fields fields = new Fields(uId,
                                         addFieldsBinding.addFiledName.getText().toString().trim(),
-                                        addFieldsBinding.addFieldArea.getText().toString().trim() + " " + addFieldsBinding.fieldSpinner.getSelectedItem().toString(),
-                                        addFieldsBinding.addFieldCurrentCrop.getText().toString().trim());
+                                        addFieldsBinding.addFieldArea.getText().toString().trim() + " " + addFieldsBinding.fieldSpinner.getSelectedItem().toString());
                                 collectionReference.add(fields).addOnCompleteListener(task -> {
                                     if (task.isSuccessful()) {
                                         Toast.makeText(MainActivity.this, "Saved Successfully", Toast.LENGTH_SHORT).show();
@@ -163,10 +169,6 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
             });
             alertDialog.show();
         });
-    }
-
-    private void setCollectionReference() {
-        listenerRegistration = collectionReference.whereEqualTo("uid", uId).orderBy("name").addSnapshotListener(eventListener);
     }
 
     @Override
@@ -226,6 +228,8 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
     public void onViewClick(int position) {
         Intent intent = new Intent(MainActivity.this, FieldDetailsActivity.class);
         intent.putExtra("fieldId", fieldsIdList.get(position));
+        intent.putExtra("fieldData",
+                (Serializable) fieldsList.get(position));
         startActivity(intent);
     }
 }
