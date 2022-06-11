@@ -11,4 +11,5 @@
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
     <string name="no_data_found">No Data Found</string>
+    <string name="no_year_found">No Year Found</string>
 </resources>

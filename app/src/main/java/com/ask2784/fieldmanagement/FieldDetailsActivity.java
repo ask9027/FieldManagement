@@ -7,6 +7,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -107,6 +108,8 @@ public class FieldDetailsActivity
                     } else Toast.makeText(this, "Data Not Available", Toast.LENGTH_SHORT).show();
                 }
                 fieldDetailsAdapter.notifyDataSetChanged();
+                binding.detailsRecyclerView.setVisibility(fieldDetailsList.isEmpty() ? View.GONE : View.VISIBLE);
+                binding.emptyYear.setVisibility(fieldDetailsList.isEmpty() ? View.VISIBLE : View.GONE);
             } else {
                 Toast.makeText(this, "No Data Found", Toast.LENGTH_SHORT).show();
             }

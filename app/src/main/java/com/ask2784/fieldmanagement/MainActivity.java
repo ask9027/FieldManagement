@@ -3,7 +3,6 @@ package com.ask2784.fieldmanagement;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
@@ -34,7 +33,6 @@ import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
@@ -229,7 +227,7 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(MainActivity.this, FieldDetailsActivity.class);
         intent.putExtra("fieldId", fieldsIdList.get(position));
         intent.putExtra("fieldData",
-                (Serializable) fieldsList.get(position));
+                fieldsList.get(position));
         startActivity(intent);
     }
 }
