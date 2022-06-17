@@ -49,8 +49,8 @@ public class FieldsAdapter extends RecyclerView.Adapter<FieldsAdapter.FieldsView
         public FieldsViewHolder(FieldsItemsBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-            binding.getRoot().setOnClickListener(view -> {
-                clickListener.onViewClick(getAdapterPosition());
+            binding.addSelYear.setOnClickListener(view -> {
+                clickListener.onViewClick(getAdapterPosition(), binding.addSelYear);
                 Log.d(TAG, "FieldsViewHolder: " + getAdapterPosition());
             });
         }

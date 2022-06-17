@@ -49,7 +49,7 @@ public class FieldDetailsAdapter
         public FieldDetailsViewHolder(@NonNull FieldDetailsBinding fieldDetailsBinding) {
             super(fieldDetailsBinding.getRoot());
             this.fieldDetailsBinding = fieldDetailsBinding;
-            fieldDetailsBinding.getRoot().setOnClickListener(view -> onClickListener.onViewClick(getAdapterPosition()));
+//            fieldDetailsBinding.getRoot().setOnClickListener(view -> onClickListener.onViewClick(binding.getRoot(), getAdapterPosition()));
             fieldDetailsBinding.getRoot().setOnLongClickListener(v -> onLongClickListener.onViewLongClick(getAdapterPosition()));
         }
     }

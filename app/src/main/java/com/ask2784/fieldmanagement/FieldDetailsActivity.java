@@ -303,9 +303,10 @@ public class FieldDetailsActivity
     }
 
     @Override
-    public void onViewClick(int position) {
+    public void onViewClick(int position,View view) {
         Snackbar.make(binding.getRoot(), "Clicked on " + position, Snackbar.LENGTH_SHORT).show();
     }
+
 
     @Override
     public boolean onViewLongClick(int position) {

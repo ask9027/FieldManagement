@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,8 +24,10 @@ import com.ask2784.fieldmanagement.databases.listeners.OnClickListener;
 import com.ask2784.fieldmanagement.databases.models.Fields;
 import com.ask2784.fieldmanagement.databinding.ActivityMainBinding;
 import com.ask2784.fieldmanagement.databinding.AddFieldsBinding;
+import com.ask2784.fieldmanagement.databinding.AddYearBinding;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
@@ -34,6 +37,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity
         implements FirebaseAuth.AuthStateListener, OnClickListener {
@@ -223,11 +227,67 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onViewClick(int position) {
-        Intent intent = new Intent(MainActivity.this, FieldDetailsActivity.class);
-        intent.putExtra("fieldId", fieldsIdList.get(position));
-        intent.putExtra("fieldData",
-                fieldsList.get(position));
-        startActivity(intent);
+    public void onViewClick(int position, View view) {
+        AddYearBinding addYearBinding = AddYearBinding.inflate(getLayoutInflater());
+        PopupMenu popupMenu = new PopupMenu(this, view);
+        popupMenu.getMenuInflater().inflate(R.menu.add_and_select, popupMenu.getMenu());
+        popupMenu.show();
+        popupMenu.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.addYear) {
+
+                MaterialAlertDialogBuilder addBuilder = new MaterialAlertDialogBuilder(this);
+                ArrayList<String> years = new ArrayList<>();
+                int thisYear = Calendar.getInstance().get(Calendar.YEAR);
+                for (int i = 1990; i <= thisYear; thisYear--) {
+                    years.add(String.valueOf(thisYear));
+                }
+                ArrayAdapter<String> yearsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, years);
+                yearsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                addYearBinding.addYearSpinner.setAdapter(yearsAdapter);
+                addBuilder.setTitle("Add Year")
+                        .setView(addYearBinding.getRoot())
+                        .setPositiveButton("Okay", (dialogInterface, i) -> {
+//                            FieldDetails fieldDetails = new FieldDetails(addYearBinding.addYearSpinner.getSelectedItem().toString());
+//                            List<String> list = new ArrayList<>();
+//                            for (FieldDetails d : fieldDetailsList) {
+//                                list.add(d.getYear());
+//                            }
+//
+//                            if (list.contains(fieldDetails.getYear())) {
+//                                Snackbar.make(binding.getRoot(), fieldDetails.getYear() + " Already Exist", Snackbar.LENGTH_SHORT).show();
+//                            } else {
+//                                collectionReference
+//                                        .document(fieldId)
+//                                        .collection("FieldDetails")
+//                                        .add(fieldDetails)
+//                                        .addOnCompleteListener(task -> {
+//                                            if (task.isSuccessful()) {
+//                                                Toast.makeText(FieldDetailsActivity.this, "Saved Successfully", Toast.LENGTH_SHORT).show();
+//                                            }
+//                                            if (task.isCanceled()) {
+//                                                Toast.makeText(FieldDetailsActivity.this, "Canceled", Toast.LENGTH_SHORT).show();
+//                                            }
+//                                            dialogInterface.dismiss();
+//                                        });
+//                            }
+                            Snackbar.make(binding.getRoot(), addYearBinding.addYearSpinner.getSelectedItem() + " Year Selected", Snackbar.LENGTH_SHORT).show();
+
+                            dialogInterface.dismiss();
+                        })
+                        .create()
+                        .show();
+                return true;
+            } else if (item.getItemId() == R.id.selectYear) {
+                Snackbar.make(binding.getRoot(), "Select Year", Snackbar.LENGTH_SHORT).show();
+                return true;
+            }
+            return false;
+        });
+
+//        Intent intent = new Intent(MainActivity.this, FieldDetailsActivity.class);
+//        intent.putExtra("fieldId", fieldsIdList.get(position));
+//        intent.putExtra("fieldData",
+//                fieldsList.get(position));
+//        startActivity(intent);
     }
 }
