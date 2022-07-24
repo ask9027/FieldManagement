@@ -11,6 +11,7 @@ import com.ask2784.fieldmanagement.databinding.ActivityLoginBinding;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -27,7 +28,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ActivityLoginBinding binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        if (FirebaseAuth.getInstance().getUid() != null) {
+        FirebaseApp app = FirebaseApp.initializeApp(this);
+
+        if (app != null && FirebaseAuth.getInstance(app).getUid() != null) {
             startMainActivity();
         }
 

@@ -3,7 +3,9 @@ package com.ask2784.fieldmanagement;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.SpannableString;
+import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.view.Menu;
@@ -131,8 +133,32 @@ public class MainActivity extends AppCompatActivity
 
     private void addField() {
         binding.addFab.setOnClickListener(v -> {
+
             AddFieldsBinding addFieldsBinding;
             addFieldsBinding = AddFieldsBinding.inflate(getLayoutInflater());
+            TextWatcher textWatcher = new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    if (addFieldsBinding.addFiledName.isFocused()){
+                        addFieldsBinding.tInputLayout.setError(null);
+                    }
+                    if (addFieldsBinding.addFieldArea.isFocused()) {
+                        addFieldsBinding.tInputLayout1.setError(null);
+                    }
+                }
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            };
+
+            addFieldsBinding.addFiledName.addTextChangedListener(textWatcher);
+            addFieldsBinding.addFieldArea.addTextChangedListener(textWatcher);
+
             MaterialAlertDialogBuilder alertDialogBuilder = new MaterialAlertDialogBuilder(this);
             alertDialogBuilder
                     .setTitle("Add New Field")
@@ -148,10 +174,12 @@ public class MainActivity extends AppCompatActivity
                 alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
                         .setOnClickListener(view -> {
                             if (addFieldsBinding.addFiledName.getText() != null && addFieldsBinding.addFiledName.getText().toString().isEmpty()) {
-                                addFieldsBinding.addFiledName.setError("Enter Field Name");
+                                addFieldsBinding.tInputLayout.setError("Enter Field Name");
+//                                addFieldsBinding.addFiledName.setError("Enter Field Name");
                                 addFieldsBinding.addFiledName.requestFocus();
                             } else if (addFieldsBinding.addFieldArea.getText() != null && addFieldsBinding.addFieldArea.getText().toString().isEmpty()) {
-                                addFieldsBinding.addFieldArea.setError("Enter Field Area");
+                                addFieldsBinding.tInputLayout1.setError("Enter Field Area");
+//                                addFieldsBinding.addFieldArea.setError("Enter Field Area");
                                 addFieldsBinding.addFieldArea.requestFocus();
                             } else {
                                 Fields fields = new Fields(uId,
@@ -185,7 +213,7 @@ public class MainActivity extends AppCompatActivity
             AuthUI.getInstance().signOut(this);
             return true;
         } else if (item.getItemId() == R.id.exit) {
-            System.exit(0);
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
